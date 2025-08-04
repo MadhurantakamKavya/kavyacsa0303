@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+int multiply(int x, int res[], int size) {
+    int carry = 0;
+    for (int i = 0; i < size; i++) {
+        int prod = res[i] * x + carry;
+        res[i] = prod % 10;
+        carry = prod / 10;
+    }
+    while (carry) {
+        res[size++] = carry % 10;
+        carry /= 10;
+    }
+    return size;
+}
+
+void factorial(int n, int res[], int *size) {
+    if (n == 0 || n == 1) return;
+    factorial(n - 1, res, size);
+    *size = multiply(n, res, *size);
+}
+
+int main() {
+    int res[1000] = {1}, size = 1, n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+    factorial(n, res, &size);
+
+    printf("Factorial of %d = ", n);
+    for (int i = size - 1; i >= 0; i--)
+        printf("%d", res[i]);
+    printf("\n");
+    return 0;
+}
